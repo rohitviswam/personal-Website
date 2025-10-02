@@ -1,7 +1,7 @@
 // Configuration for GitHub Pages deployment
 window.APP_CONFIG = {
     // Production backend URL (update this after deploying backend to Render/Railway)
-    API_BASE: 'https://rohit-portfolio-backend.onrender.com', // Replace with your actual backend URL
+    API_BASE: 'https://rohit-portfolio-backend-ri7d.onrender.com/', // Replace with your actual backend URL
     
     // For local development, uncomment the line below:
     // API_BASE: 'http://localhost:5050',
