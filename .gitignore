@@ -7,5 +7,19 @@ backend/.venv/
 **/__pycache__/
 *.pyc
 
+# GitHub Pages / Jekyll
+_site/
+.sass-cache/
+.jekyll-cache/
+.jekyll-metadata
+
+# Deployment
+dist/
+build/
+
 # macOS
 .DS_Store
+
+# IDE
+.vscode/
+.idea/

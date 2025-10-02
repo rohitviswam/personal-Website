@@ -161,6 +161,46 @@ There are two ways to run this project locally:
    - On macOS, SSL cert issues are handled via certifi; the backend also falls back to STARTTLS on port 587 if needed.
    - The client falls back to EmailJS (if configured in `js/config.js`) and then to `mailto:` if the backend isn’t reachable.
 
+## 🚀 GitHub Pages Deployment
+
+This project is configured for GitHub Pages deployment with automated workflows.
+
+### Quick Deploy Steps:
+
+1. **Push to GitHub**:
+   ```bash
+   git add .
+   git commit -m "Deploy to GitHub Pages"
+   git push origin main
+   ```
+
+2. **Enable GitHub Pages**:
+   - Go to your repository Settings → Pages
+   - Source: "GitHub Actions"
+   - The workflow will automatically deploy your site
+
+3. **Your site will be live at**:
+   - `https://rohitviswam.github.io/personal-Website/`
+   - Or `https://rohitviswam.github.io/` if repo is named `rohitviswam.github.io`
+
+### Backend Deployment (for contact form):
+
+4. **Deploy backend separately** on Render/Railway:
+   - Create account on render.com or railway.app
+   - Connect this GitHub repo
+   - Set build directory to `backend/`
+   - Set start command: `gunicorn server:app`
+   - Add environment variables for SMTP
+
+5. **Update frontend config**:
+   - Replace the API_BASE URL in `js/config.js` with your backend URL
+   - Commit and push to update the live site
+
+### Alternative Hosting:
+- **Netlify**: Drag & drop the project folder
+- **Vercel**: Import from GitHub
+- **Firebase Hosting**: Use Firebase CLI
+
 ## Deployment
 
 This website can be deployed to:
