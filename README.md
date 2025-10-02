@@ -183,23 +183,59 @@ This project is configured for GitHub Pages deployment with automated workflows.
    - `https://rohitviswam.github.io/personal-Website/`
    - Or `https://rohitviswam.github.io/` if repo is named `rohitviswam.github.io`
 
-### Backend Deployment (for contact form):
+### Backend Deployment (for SMTP contact form):
 
-4. **Deploy backend separately** on Render/Railway:
-   - Create account on render.com or railway.app
-   - Connect this GitHub repo
-   - Set build directory to `backend/`
-   - Set start command: `gunicorn server:app`
-   - Add environment variables for SMTP
+4. **Deploy backend on Render (Recommended - Free)**:
+   - Create account at [render.com](https://render.com)
+   - Click "New" → "Web Service"
+   - Connect your GitHub repository
+   - Configure:
+     - **Name**: `rohit-portfolio-backend`
+     - **Root Directory**: `backend`
+     - **Build Command**: `pip install -r requirements.txt`
+     - **Start Command**: `gunicorn server:app`
+   - Add Environment Variables:
+     - `SMTP_HOST`: `smtp.gmail.com`
+     - `SMTP_PORT`: `465`
+     - `SMTP_USER`: `rohitviswam@gmail.com`
+     - `SMTP_PASS`: `ghev rnpt aaeh zyik`
+     - `CORS_ORIGINS`: `https://rohitviswam.github.io`
+   - Click "Create Web Service"
 
 5. **Update frontend config**:
-   - Replace the API_BASE URL in `js/config.js` with your backend URL
-   - Commit and push to update the live site
+   - After backend deployment, copy your backend URL (e.g., `https://rohit-portfolio-backend.onrender.com`)
+   - Update `js/config.js`:
+     ```javascript
+     API_BASE: 'https://your-actual-backend-url.onrender.com',
+     ```
+   - Commit and push:
+     ```bash
+     git add js/config.js
+     git commit -m "Update backend API URL"
+     git push origin main
+     ```
 
-### Alternative Hosting:
-- **Netlify**: Drag & drop the project folder
-- **Vercel**: Import from GitHub
-- **Firebase Hosting**: Use Firebase CLI
+### Alternative Backend Hosting:
+- **Railway**: Similar setup at [railway.app](https://railway.app)
+- **Heroku**: Use the included Procfile
+- **DigitalOcean App Platform**: Deploy backend folder
+
+### Local Development:
+
+For local testing:
+```bash
+# Start backend
+cd backend
+source .venv/bin/activate
+PORT=5050 python server.py
+
+# Start frontend (in another terminal)
+cd "/Users/rohitviswam/Documents/personal Website"
+python3 -m http.server 8080
+
+# Update js/config.js to use local backend:
+# API_BASE: 'http://localhost:5050'
+```
 
 ## Deployment
 

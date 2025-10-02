@@ -336,26 +336,28 @@ document.addEventListener('DOMContentLoaded', function() {
         formStatus.style.display = 'none';
     }
     
-    // SMTP Backend Integration
+    // SMTP Backend Integration - Enhanced for local development
     async function sendViaBackend(contactData) {
         const API_BASE = (window.APP_CONFIG && window.APP_CONFIG.API_BASE) || '';
         const endpoints = [];
         
-        // Try production backend first
-        if (API_BASE) {
+        // For local development, try localhost first
+        endpoints.push('http://localhost:5050/api/contact');
+        
+        // Try production backend if configured
+        if (API_BASE && !API_BASE.includes('localhost')) {
             endpoints.push(`${API_BASE}/api/contact`);
         }
         
         // Then try same-origin (if running from Flask)
         endpoints.push('/api/contact');
         
-        // Finally try local development
-        endpoints.push('http://localhost:5050/api/contact');
-        
         let lastError;
         
         for (const endpoint of endpoints) {
             try {
+                console.log(`Trying SMTP endpoint: ${endpoint}`);
+                
                 const response = await fetch(endpoint, {
                     method: 'POST',
                     headers: {
@@ -368,15 +370,15 @@ document.addEventListener('DOMContentLoaded', function() {
                 
                 if (!response.ok) {
                     const errorData = await response.json().catch(() => ({}));
-                    throw new Error(errorData.error || `HTTP ${response.status}`);
+                    throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`);
                 }
                 
                 const result = await response.json();
-                console.log('Email sent successfully via:', endpoint);
+                console.log('✅ Email sent successfully via:', endpoint);
                 return result;
                 
             } catch (error) {
-                console.warn(`Failed to send via ${endpoint}:`, error.message);
+                console.warn(`❌ Failed to send via ${endpoint}:`, error.message);
                 lastError = error;
                 continue;
             }
