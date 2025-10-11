@@ -80,69 +80,57 @@ document.addEventListener('DOMContentLoaded', function() {
         }
     });
 
-    // Contact Form Handling with SMTP Integration
+    // Contact Form Handling - Simple mailto implementation
     const contactForm = document.getElementById('contactForm');
-    const submitBtn = document.getElementById('submitBtn');
-    const formStatus = document.getElementById('formStatus');
     
     if (contactForm) {
-        // Real-time validation
-        const inputs = contactForm.querySelectorAll('input, textarea');
-        inputs.forEach(input => {
-            input.addEventListener('blur', () => validateField(input));
-            input.addEventListener('input', () => clearFieldError(input));
-        });
-        
-        contactForm.addEventListener('submit', async function(e) {
+        contactForm.addEventListener('submit', function(e) {
             e.preventDefault();
-            
-            // Validate all fields
-            const isValid = validateForm();
-            if (!isValid) {
-                showFormStatus('Please fix the errors above.', 'error');
-                return;
-            }
             
             // Get form data
             const formData = new FormData(contactForm);
-            const contactData = {
-                name: formData.get('name').trim(),
-                email: formData.get('email').trim(),
-                subject: formData.get('subject').trim(),
-                message: formData.get('message').trim()
-            };
+            const name = formData.get('name').trim();
+            const email = formData.get('email').trim();
+            const subject = formData.get('subject').trim();
+            const message = formData.get('message').trim();
             
-            // Show loading state
-            setLoadingState(true);
-            showFormStatus('Sending your message...', 'info');
-            
-            try {
-                // Try SMTP backend first (primary method)
-                await sendViaBackend(contactData);
-                
-                // Success
-                showFormStatus('✅ Message sent successfully! I\'ll get back to you soon.', 'success');
-                contactForm.reset();
-                clearAllErrors();
-                
-                // Auto-hide success message after 5 seconds
-                setTimeout(() => {
-                    hideFormStatus();
-                }, 5000);
-                
-            } catch (error) {
-                console.error('Contact form error:', error);
-                
-                // Try EmailJS fallback
-                try {
-                    await tryEmailJsOrMailto(contactData);
-                } catch (fallbackError) {
-                    // Final fallback to mailto
-                    fallbackToMailto(contactData);
-                }
-            } finally {
-                setLoadingState(false);
+            // Basic validation
+            if (!name || !email || !subject || !message) {
+                alert('Please fill in all fields.');
+                return;
             }
+            
+            // Validate email format
+            const emailRegex = /^[^\s@]+@[^\s@]+\.[^\s@]+$/;
+            if (!emailRegex.test(email)) {
+                alert('Please enter a valid email address.');
+                return;
+            }
+            
+            // Create mailto link with all details
+            const to = 'rohitviswam@gmail.com';
+            const mailtoSubject = `Portfolio Contact: ${subject}`;
+            const bodyLines = [
+                `Name: ${name}`,
+                `Email: ${email}`,
+                `Subject: ${subject}`,
+                '',
+                'Message:',
+                message,
+                '',
+                '--',
+                'Sent from Rohit Viswam\'s Portfolio Website'
+            ];
+            
+            const mailtoLink = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(mailtoSubject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
+            
+            // Open default mail app
+            window.location.href = mailtoLink;
+            
+            // Optional: Reset form after a short delay
+            setTimeout(() => {
+                contactForm.reset();
+            }, 1000);
         });
     }    // Final fallback: compose an email in the user's mail client
     function fallbackToMailto(contactData) {
@@ -215,207 +203,6 @@ document.addEventListener('DOMContentLoaded', function() {
             }
             return res.json();
         });
-    }
-
-    // Form validation functions
-    function validateForm() {
-        const name = document.getElementById('name');
-        const email = document.getElementById('email');
-        const subject = document.getElementById('subject');
-        const message = document.getElementById('message');
-        
-        let isValid = true;
-        
-        isValid = validateField(name) && isValid;
-        isValid = validateField(email) && isValid;
-        isValid = validateField(subject) && isValid;
-        isValid = validateField(message) && isValid;
-        
-        return isValid;
-    }
-    
-    function validateField(field) {
-        const value = field.value.trim();
-        const fieldName = field.name;
-        let isValid = true;
-        let errorMessage = '';
-        
-        // Required validation
-        if (!value) {
-            errorMessage = `${fieldName.charAt(0).toUpperCase() + fieldName.slice(1)} is required`;
-            isValid = false;
-        } else {
-            // Specific field validation
-            switch (fieldName) {
-                case 'name':
-                    if (value.length < 2) {
-                        errorMessage = 'Name must be at least 2 characters';
-                        isValid = false;
-                    }
-                    break;
-                    
-                case 'email':
-                    if (!isValidEmail(value)) {
-                        errorMessage = 'Please enter a valid email address';
-                        isValid = false;
-                    }
-                    break;
-                    
-                case 'subject':
-                    if (value.length < 3) {
-                        errorMessage = 'Subject must be at least 3 characters';
-                        isValid = false;
-                    }
-                    break;
-                    
-                case 'message':
-                    if (value.length < 10) {
-                        errorMessage = 'Message must be at least 10 characters';
-                        isValid = false;
-                    }
-                    break;
-            }
-        }
-        
-        showFieldError(field, errorMessage);
-        return isValid;
-    }
-    
-    function showFieldError(field, message) {
-        const errorElement = document.getElementById(field.name + 'Error');
-        if (errorElement) {
-            errorElement.textContent = message;
-        }
-        
-        field.classList.remove('success', 'error');
-        if (message) {
-            field.classList.add('error');
-        } else {
-            field.classList.add('success');
-        }
-    }
-    
-    function clearFieldError(field) {
-        const errorElement = document.getElementById(field.name + 'Error');
-        if (errorElement) {
-            errorElement.textContent = '';
-        }
-        field.classList.remove('error');
-    }
-    
-    function clearAllErrors() {
-        const inputs = contactForm.querySelectorAll('input, textarea');
-        inputs.forEach(input => {
-            clearFieldError(input);
-            input.classList.remove('success', 'error');
-        });
-    }
-    
-    function setLoadingState(loading) {
-        const btnText = submitBtn.querySelector('.btn-text');
-        const btnLoading = submitBtn.querySelector('.btn-loading');
-        
-        if (loading) {
-            btnText.style.display = 'none';
-            btnLoading.style.display = 'inline-flex';
-            submitBtn.disabled = true;
-        } else {
-            btnText.style.display = 'inline';
-            btnLoading.style.display = 'none';
-            submitBtn.disabled = false;
-        }
-    }
-    
-    function showFormStatus(message, type) {
-        formStatus.textContent = message;
-        formStatus.className = `form-status ${type}`;
-        formStatus.style.display = 'block';
-    }
-    
-    function hideFormStatus() {
-        formStatus.style.display = 'none';
-    }
-    
-    // SMTP Backend Integration - Enhanced for local development
-    async function sendViaBackend(contactData) {
-        const API_BASE = (window.APP_CONFIG && window.APP_CONFIG.API_BASE) || '';
-        const endpoints = [];
-        
-        // For local development, try localhost first
-        endpoints.push('http://localhost:5050/api/contact');
-        
-        // Try production backend if configured
-        if (API_BASE && !API_BASE.includes('localhost')) {
-            endpoints.push(`${API_BASE}/api/contact`);
-        }
-        
-        // Then try same-origin (if running from Flask)
-        endpoints.push('/api/contact');
-        
-        let lastError;
-        
-        for (const endpoint of endpoints) {
-            try {
-                console.log(`Trying SMTP endpoint: ${endpoint}`);
-                
-                const response = await fetch(endpoint, {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json',
-                        'Accept': 'application/json'
-                    },
-                    body: JSON.stringify(contactData),
-                    mode: 'cors'
-                });
-                
-                if (!response.ok) {
-                    const errorData = await response.json().catch(() => ({}));
-                    throw new Error(errorData.error || `HTTP ${response.status}: ${response.statusText}`);
-                }
-                
-                const result = await response.json();
-                console.log('✅ Email sent successfully via:', endpoint);
-                return result;
-                
-            } catch (error) {
-                console.warn(`❌ Failed to send via ${endpoint}:`, error.message);
-                lastError = error;
-                continue;
-            }
-        }
-        
-        throw lastError || new Error('All SMTP endpoints failed');
-    }
-    
-    // Enhanced EmailJS fallback
-    async function tryEmailJsOrMailto(contactData) {
-        const cfg = window.APP_CONFIG || {};
-        const hasEmailJS = cfg.EMAILJS_PUBLIC_KEY && cfg.EMAILJS_SERVICE_ID && cfg.EMAILJS_TEMPLATE_ID;
-        
-        if (window.emailjs && hasEmailJS) {
-            try {
-                emailjs.init(cfg.EMAILJS_PUBLIC_KEY);
-                
-                await emailjs.send(cfg.EMAILJS_SERVICE_ID, cfg.EMAILJS_TEMPLATE_ID, {
-                    from_name: contactData.name,
-                    from_email: contactData.email,
-                    subject: contactData.subject,
-                    message: contactData.message,
-                    to_email: 'rohitviswam@gmail.com'
-                });
-                
-                showFormStatus('✅ Message sent via EmailJS! I\'ll get back to you soon.', 'success');
-                contactForm.reset();
-                clearAllErrors();
-                return;
-                
-            } catch (error) {
-                console.error('EmailJS failed:', error);
-                throw error;
-            }
-        } else {
-            throw new Error('EmailJS not configured');
-        }
     }
 
     // Scroll animations

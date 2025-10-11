@@ -1,68 +1,25 @@
-# Rohit Viswam - Personal Portfolio Website
+# Personal Portfolio Website
 
-A modern, responsive personal portfolio website showcasing my skills as a Data Engineer, experience in machine learning, big data, and real-time analytics.
-
-## About Me
-
-I'm a Data Engineer at LatentView Analytics with hands-on experience in machine learning, big data, and real-time analytics. I specialize in building scalable solutions using Python, SQL, and data visualization tools, with a proven track record in 5G communication research and deep learning model deployment.
+A modern, responsive personal portfolio website showcasing skills, experience, education, certifications, and projects.
 
 ## Features
 
-- **Responsive Design**: Fully responsive layout that works on all devices
-- **Modern UI/UX**: Clean, professional design with smooth animations
-- **Interactive Navigation**: Smooth scrolling navigation with active link highlighting
-- **Animated Sections**: Engaging animations and transitions
-- **Contact Form**: Functional contact form with validation
-- **Performance Optimized**: Fast loading with optimized code
-
-## Sections
-
-1. **Hero Section**: Introduction as a Data Engineer and ML specialist
-2. **About**: Personal background and professional statistics
-3. **Skills**: Technical skills in programming, ML/AI, big data, and web development
-4. **Experience**: Professional timeline including LatentView Analytics, IIT Madras, and Intel Corporation
-5. **Education**: MIT degree and Caltech AI/ML program
-6. **Certifications**: Professional certifications, awards, and publications
-7. **Projects**: Featured projects including LLMOps pipelines, 5G CSI prediction, and more
-8. **Contact**: Contact information and form
-
-## Key Projects Featured
-
-- **LLMOps Evaluation Pipeline**: MLflow and Unity Catalog integration
-- **5G CSI Prediction System**: Advanced deep learning models for wireless communication
-- **Restaurant Recommendation System**: Published research with 50+ features
-- **Social Distancing Detection**: Intel OpenVINO optimization (33% to 63% accuracy improvement)
-- **IPL Management System**: Complete database-driven sports management
-- **Temperature Sensor Interface**: Embedded systems project
-
-## Technologies Highlighted
-
-- **Programming**: Python, C++, C, JavaScript, SQL
-- **ML/AI**: TensorFlow, Pandas, NumPy, MLflow, Databricks
-- **Big Data**: Unity Catalog, Power BI, LLMOps
-- **Web Development**: React.js, Angular, Flask, Node.js
-- **Specializations**: Data Analysis, Visualization, MLOps
-
-## Contact
-
-- **Email**: rohitviswam@gmail.com
-- **Phone**: +91 8610375216
-- **Location**: India
-
-## Professional Background
-
-- **Current**: Data Engineer at LatentView Analytics (Jan 2025 - Present)
-- **Research**: IIT Madras Research Intern (Jan 2024 - Jun 2024)
-- **Industry**: Intel Corporation Project Intern (May 2023 - Jul 2023)
-- **Education**: MIT (Computer & Communication Engineering) + Caltech (AI/ML Program)
+- **Responsive Design**: Works seamlessly on desktop, tablet, and mobile devices
+- **Modern UI/UX**: Clean and professional interface with smooth animations
+- **Interactive Navigation**: Smooth scrolling and mobile-friendly menu
+- **Project Showcase**: Display your best work with project cards
+- **Experience Timeline**: Visual representation of your work history
+- **Skills Section**: Highlight your technical expertise
+- **Contact Form**: Simple mailto-based contact functionality
+- **GitHub Pages Ready**: Easy deployment with automated workflow
 
 ## Technologies Used
 
-- **HTML5**: Semantic markup
-- **CSS3**: Modern styling with Flexbox and Grid
-- **JavaScript**: Interactive functionality and animations
-- **Font Awesome**: Icons
-- **Google Fonts**: Typography (Inter font family)
+- HTML5
+- CSS3 (Grid, Flexbox, Animations)
+- Vanilla JavaScript
+- Font Awesome Icons
+- Google Fonts
 
 ## Customization
 
@@ -89,10 +46,6 @@ To customize this website with your information:
    - Main brand color: `#2563eb` (blue)
    - Accent color: `#fbbf24` (yellow)
 
-5. **Contact Form**: 
-   - Currently shows notifications only
-   - Connect to a backend service or email service for actual form submission
-
 ## File Structure
 
 ```
@@ -101,7 +54,11 @@ personal-website/
 ├── css/
 │   └── styles.css          # Main stylesheet
 ├── js/
-│   └── script.js           # JavaScript functionality
+│   ├── script.js           # JavaScript functionality
+│   └── config.js           # Configuration file
+├── .github/
+│   └── workflows/
+│       └── pages.yml       # GitHub Actions deployment
 └── README.md               # This file
 ```
 
@@ -114,61 +71,24 @@ personal-website/
 
 ## Getting Started
 
-There are two ways to run this project locally:
+To run this project locally:
 
-1) Frontend only (static preview)
-   - Quickest way to view the site
-   - The contact form uses EmailJS (if configured) or mailto fallback
+```zsh
+cd "/Users/rohitviswam/Documents/personal Website"
+python3 -m http.server 8000
+```
 
-   Steps (macOS):
-   ```zsh
-   cd "/Users/rohitviswam/Documents/personal Website"
-   python3 -m http.server 8000
-   # Open http://localhost:8000
-   ```
-
-2) Frontend + Backend (SMTP email via Gmail)
-   - Use this to send the contact form through Gmail SMTP
-
-   One-time setup:
-   ```zsh
-   cd "/Users/rohitviswam/Documents/personal Website"
-   python3 -m venv backend/.venv
-   source backend/.venv/bin/activate
-   pip install -r backend/requirements.txt
-   cp .env.example .env  # then edit .env with your SMTP creds
-   ```
-
-   .env keys:
-   - SMTP_HOST=smtp.gmail.com
-   - SMTP_PORT=465 (or leave default)
-   - SMTP_USER=your@gmail.com
-   - SMTP_PASS=your-google-app-password (no spaces)
-
-   Run the backend:
-   ```zsh
-   cd "/Users/rohitviswam/Documents/personal Website/backend"
-   source .venv/bin/activate
-   PORT=5050 python server.py
-   # Backend will run at http://localhost:5050
-   ```
-
-   View the site via the backend or static server:
-   - Best: http://localhost:5050 (same-origin API)
-   - Or static: http://localhost:8000 — the form will automatically try http://localhost:5050/api/contact
-
-   Notes:
-   - On macOS, SSL cert issues are handled via certifi; the backend also falls back to STARTTLS on port 587 if needed.
-   - The client falls back to EmailJS (if configured in `js/config.js`) and then to `mailto:` if the backend isn’t reachable.
+Then open http://localhost:8000 in your browser.
 
 ## 🚀 GitHub Pages Deployment
 
-This project is configured for GitHub Pages deployment with automated workflows.
+This project is ready for GitHub Pages deployment with a simple, clean implementation.
 
 ### Quick Deploy Steps:
 
 1. **Push to GitHub**:
    ```bash
+   cd "/Users/rohitviswam/Documents/personal Website"
    git add .
    git commit -m "Deploy to GitHub Pages"
    git push origin main
@@ -183,72 +103,33 @@ This project is configured for GitHub Pages deployment with automated workflows.
    - `https://rohitviswam.github.io/personal-Website/`
    - Or `https://rohitviswam.github.io/` if repo is named `rohitviswam.github.io`
 
-### Backend Deployment (for SMTP contact form):
-
-4. **Deploy backend on Render (Recommended - Free)**:
-   - Create account at [render.com](https://render.com)
-   - Click "New" → "Web Service"
-   - Connect your GitHub repository
-   - Configure:
-     - **Name**: `rohit-portfolio-backend`
-     - **Root Directory**: `backend`
-     - **Build Command**: `pip install -r requirements.txt`
-     - **Start Command**: `gunicorn server:app`
-   - Add Environment Variables:
-     - `SMTP_HOST`: `smtp.gmail.com`
-     - `SMTP_PORT`: `465`
-     - `SMTP_USER`: `rohitviswam@gmail.com`
-     - `SMTP_PASS`: `ghev rnpt aaeh zyik`
-     - `CORS_ORIGINS`: `https://rohitviswam.github.io`
-   - Click "Create Web Service"
-
-5. **Update frontend config**:
-   - After backend deployment, copy your backend URL (e.g., `https://rohit-portfolio-backend.onrender.com`)
-   - Update `js/config.js`:
-     ```javascript
-     API_BASE: 'https://your-actual-backend-url.onrender.com',
-     ```
-   - Commit and push:
-     ```bash
-     git add js/config.js
-     git commit -m "Update backend API URL"
-     git push origin main
-     ```
-
-### Alternative Backend Hosting:
-- **Railway**: Similar setup at [railway.app](https://railway.app)
-- **Heroku**: Use the included Procfile
-- **DigitalOcean App Platform**: Deploy backend folder
+### Contact Form:
+The contact form uses the simple mailto approach:
+- When visitors click "Send Message", their default email app opens
+- Email is pre-addressed to: rohitviswam@gmail.com
+- Subject and message are pre-filled with the form data
+- Works on all platforms without any backend required
 
 ### Local Development:
-
-For local testing:
 ```bash
-# Start backend
-cd backend
-source .venv/bin/activate
-PORT=5050 python server.py
+# Clone the repository
+git clone https://github.com/rohitviswam/personal-Website.git
+cd personal-Website
 
-# Start frontend (in another terminal)
-cd "/Users/rohitviswam/Documents/personal Website"
-python3 -m http.server 8080
+# Start local server
+python3 -m http.server 8000
 
-# Update js/config.js to use local backend:
-# API_BASE: 'http://localhost:5050'
+# Open in browser
+open http://localhost:8000
 ```
-
-## Deployment
-
-This website can be deployed to:
-- GitHub Pages
-- Netlify
-- Vercel
-- Any web hosting service
 
 ## License
 
-This project is open source and available under the MIT License.
+This project is open source and available under the [MIT License](LICENSE).
 
 ## Contact
 
-For questions or suggestions, please reach out through the contact form on the website.
+Rohit Viswam
+- Email: rohitviswam@gmail.com
+- LinkedIn: [linkedin.com/in/rohit-viswam](https://www.linkedin.com/in/rohit-viswam/)
+- GitHub: [github.com/rohitviswam](https://github.com/rohitviswam)
