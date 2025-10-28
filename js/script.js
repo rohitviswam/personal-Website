@@ -441,3 +441,86 @@ const debouncedScrollHandler = debounce(() => {
 }, 16); // ~60fps
 
 window.addEventListener('scroll', debouncedScrollHandler);
+
+// Modal Popup Functionality
+document.addEventListener('DOMContentLoaded', function() {
+    const modal = document.getElementById('contactModal');
+    const modalClose = document.querySelector('.modal-close');
+    const projectContactBtns = document.querySelectorAll('.project-contact-btn');
+    const modalForm = document.getElementById('modalContactForm');
+
+    // Open modal when clicking Demo/Code buttons
+    projectContactBtns.forEach(btn => {
+        btn.addEventListener('click', function(e) {
+            e.preventDefault();
+            const projectCard = this.closest('.project-card');
+            const projectTitle = projectCard.querySelector('h3').textContent;
+            const buttonText = this.textContent.trim();
+            
+            // Pre-fill the subject with project info
+            const subjectInput = document.getElementById('modal-subject');
+            subjectInput.value = `Inquiry about ${projectTitle} - ${buttonText}`;
+            
+            modal.style.display = 'block';
+            document.body.style.overflow = 'hidden'; // Prevent background scrolling
+        });
+    });
+
+    // Close modal when clicking X
+    modalClose.addEventListener('click', function() {
+        modal.style.display = 'none';
+        document.body.style.overflow = 'auto';
+    });
+
+    // Close modal when clicking outside
+    window.addEventListener('click', function(event) {
+        if (event.target === modal) {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    });
+
+    // Close modal on Escape key
+    document.addEventListener('keydown', function(event) {
+        if (event.key === 'Escape' && modal.style.display === 'block') {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+        }
+    });
+
+    // Handle modal form submission
+    modalForm.addEventListener('submit', function(e) {
+        e.preventDefault();
+        
+        const name = document.getElementById('modal-name').value;
+        const email = document.getElementById('modal-email').value;
+        const subject = document.getElementById('modal-subject').value;
+        const message = document.getElementById('modal-message').value;
+
+        // Create mailto link
+        const to = 'rohitviswam@gmail.com';
+        const mailtoSubject = `Portfolio Contact: ${subject}`;
+        const bodyLines = [
+            `Name: ${name}`,
+            `Email: ${email}`,
+            `Subject: ${subject}`,
+            '',
+            'Message:',
+            message,
+            '',
+            '--',
+            'Sent from Rohit Viswam\'s Portfolio Website'
+        ];
+        const mailtoLink = `mailto:${encodeURIComponent(to)}?subject=${encodeURIComponent(mailtoSubject)}&body=${encodeURIComponent(bodyLines.join('\n'))}`;
+        
+        // Open mail client
+        window.location.href = mailtoLink;
+        
+        // Close modal after a short delay
+        setTimeout(() => {
+            modal.style.display = 'none';
+            document.body.style.overflow = 'auto';
+            modalForm.reset();
+        }, 500);
+    });
+});

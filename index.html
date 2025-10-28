@@ -55,8 +55,14 @@
                     <a href="mailto:rohitviswam@gmail.com" class="social-link"><i class="fas fa-envelope"></i></a>
                 </div>
             </div>
-            <div class="hero-image">
-                <img src="profile/P200953044.jpg" alt="Rohit Viswam - Profile Picture" class="profile-img">
+            <div class="hero-image-section">
+                <div class="hero-image">
+                    <img src="profile and badges/P200953044.jpg" alt="Rohit Viswam - Profile Picture" class="profile-img">
+                </div>
+                <div class="certification-badges">
+                    <img src="profile and badges/DBX_DE_A_badge.png" alt="Databricks Data Engineer Associate" class="cert-badge">
+                    <img src="profile and badges/Gen_AI_Bagde.png" alt="Databricks Generative AI Engineer Associate" class="cert-badge">
+                </div>
             </div>
         </div>
     </section>
@@ -338,8 +344,8 @@
                             <span class="tech-tag">SQL</span>
                         </div>
                         <div class="project-links">
-                            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Live Demo</a>
-                            <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
+                            <a href="#" class="project-link project-contact-btn"><i class="fas fa-external-link-alt"></i> Live Demo</a>
+                            <a href="#" class="project-link project-contact-btn"><i class="fab fa-github"></i> Code</a>
                         </div>
                     </div>
                 </div>
@@ -359,8 +365,8 @@
                             <span class="tech-tag">5G</span>
                         </div>
                         <div class="project-links">
-                            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Research Paper</a>
-                            <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
+                            <a href="#" class="project-link project-contact-btn"><i class="fas fa-external-link-alt"></i> Research Paper</a>
+                            <a href="#" class="project-link project-contact-btn"><i class="fab fa-github"></i> Code</a>
                         </div>
                     </div>
                 </div>
@@ -380,8 +386,8 @@
                             <span class="tech-tag">Recommendation Systems</span>
                         </div>
                         <div class="project-links">
-                            <a href="#" class="project-link"><i class="fas fa-book"></i> Google Books</a>
-                            <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
+                            <a href="https://www.google.co.in/books/edition/Recent_Trends_in_Computational_Sciences/mV7fEAAAQBAJ?hl=en" target="_blank" rel="noopener" class="project-link"><i class="fas fa-book"></i> Google Books</a>
+                            <a href="#" class="project-link project-contact-btn"><i class="fab fa-github"></i> Code</a>
                         </div>
                     </div>
                 </div>
@@ -401,8 +407,8 @@
                             <span class="tech-tag">Real-time AI</span>
                         </div>
                         <div class="project-links">
-                            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Demo</a>
-                            <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
+                            <a href="#" class="project-link project-contact-btn"><i class="fas fa-external-link-alt"></i> Demo</a>
+                            <a href="#" class="project-link project-contact-btn"><i class="fab fa-github"></i> Code</a>
                         </div>
                     </div>
                 </div>
@@ -422,8 +428,8 @@
                             <span class="tech-tag">C#</span>
                         </div>
                         <div class="project-links">
-                            <a href="#" class="project-link"><i class="fas fa-external-link-alt"></i> Demo</a>
-                            <a href="#" class="project-link"><i class="fab fa-github"></i> Code</a>
+                            <a href="#" class="project-link project-contact-btn"><i class="fas fa-external-link-alt"></i> Demo</a>
+                            <a href="#" class="project-link project-contact-btn"><i class="fab fa-github"></i> Code</a>
                         </div>
                     </div>
                 </div>
@@ -511,6 +517,34 @@
             </div>
         </div>
     </section>
+
+    <!-- Contact Modal Popup -->
+    <div id="contactModal" class="modal">
+        <div class="modal-content">
+            <span class="modal-close">&times;</span>
+            <h2>Contact Me</h2>
+            <p>Interested in this project? Let's connect!</p>
+            <form id="modalContactForm" class="contact-form">
+                <div class="form-group">
+                    <label for="modal-name">Name</label>
+                    <input type="text" id="modal-name" name="name" required>
+                </div>
+                <div class="form-group">
+                    <label for="modal-email">Email</label>
+                    <input type="email" id="modal-email" name="email" required>
+                </div>
+                <div class="form-group">
+                    <label for="modal-subject">Subject</label>
+                    <input type="text" id="modal-subject" name="subject" required>
+                </div>
+                <div class="form-group">
+                    <label for="modal-message">Message</label>
+                    <textarea id="modal-message" name="message" rows="5" required></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Send Message</button>
+            </form>
+        </div>
+    </div>
 
     <!-- Footer -->
     <footer class="footer">
